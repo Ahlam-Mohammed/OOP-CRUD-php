@@ -13,7 +13,7 @@ if (isset($_GET['id']))
     $row = mysqli_fetch_assoc($result);
 }
 
-include '../include/header.php';
+include '../../include/header.php';
 ?>
 
 <main>
@@ -23,17 +23,10 @@ include '../include/header.php';
         </div>
         <div class="card-body">
             <form action="update.php" method="POST"  class="row g-3 needs-validation" novalidate>
-                <input type="hidden" name="id" value="<?php echo $row['id']; ?>" >
-                <div class="col-md-12">
-                    <label for="validationCustom01" class="form-label">Name</label>
-                    <input type="text" name="name" value="<?php echo $row['name']; ?>" id="validationCustom01" class="form-control">
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-primary" name="submit" value="submit" type="submit">Save</button>
-                </div>
+                <?php include 'form.php' ?>
             </form>
         </div>
     </div>
 </main>
 
-<?php include '../include/footer.php'; ?>
+<?php include '../../include/footer.php'; ?>

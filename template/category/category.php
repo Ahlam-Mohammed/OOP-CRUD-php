@@ -5,7 +5,7 @@ $conn = new Database();
 $conn->select('categories', '*');
 $result = $conn->sql;
 
-include '../include/header.php';
+include '../../include/header.php';
 ?>
 
     <section>
@@ -47,4 +47,4 @@ include '../include/header.php';
         </div>
     </main>
 
-<?php include '../include/footer.php'; ?>
+<?php include '../../include/footer.php'; ?>

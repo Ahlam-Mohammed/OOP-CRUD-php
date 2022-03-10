@@ -12,7 +12,7 @@ if (isset($_POST['submit']))
 }
 
 
-include '../include/header.php';
+include '../../include/header.php';
 ?>
 
 <main>
@@ -22,16 +22,10 @@ include '../include/header.php';
         </div>
         <div class="card-body">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="row g-3 needs-validation" novalidate>
-                <div class="col-md-12">
-                    <label for="validationCustom01" class="form-label">Name</label>
-                    <input type="text" name="name" id="validationCustom01" class="form-control">
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-primary" name="submit"  type="submit">Save</button>
-                </div>
+                <?php include 'form.php' ?>
             </form>
         </div>
     </div>
 </main>
 
-<?php include '../include/footer.php'; ?>
+<?php include '../../include/footer.php'; ?>
