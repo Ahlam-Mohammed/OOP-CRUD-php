@@ -79,7 +79,7 @@ class User {
         }
     }
 
-    public function emails()
+    private function emails()
     {
         $this->db->select('users','email');
         $array = array();
