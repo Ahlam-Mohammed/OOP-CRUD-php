@@ -1,12 +1,8 @@
 <?php
 
-// namespace Classes\User;
-// use Classes\Database\Database;
-// include "DataBase.php";
-// include "Wallet.php";
-
 class User {
 
+    private $id;
     private $name;
     private $email;
     private $password;
@@ -15,52 +11,60 @@ class User {
     public $name_err;
     public $email_err;
     public $password_err;
+
     public $msg = array();
-
     public $db;
-    // public $wallet;
 
-    public function __construct($conn)
+    public function __construct($conn, $email, $password, $name = null)
     {
-        $this->db     = $conn;
-        // $this->wallet = new Wallet();
+        $this->db       = $conn;
+        $this->name     = $name;
+        $this->email    = $email;
+        $this->password = $password;
     }
 
-    public function __get($name)
+    public function login()
     {
-        echo "The property | $name | is not found or not accessible";
-    }
+        if (empty($this->email)) $this->email_err = "Email must be entered";
+        if (empty($this->password)) $this->password_err = "Password must be entered";
 
-    public function __set($name, $value)
-    {
-        echo "The property | $name | is not found or not accessible";
-        echo "And you cannot assign this value | $value | to it";
-    }
-
-    public function login($email, $passwor)
-    {
-        $this->db->select('users','*',"email = '$email'");
-        $result = $this->db->result;
-
-        if ($result)
+        if (empty($this->email_err) && empty($this->password_err))
         {
+            $this->db->select('users','*',"email = '$this->email'");
+            $result = $this->db->result;
+
             $row = mysqli_fetch_assoc($result);
-            if ($row['password'] == $passwor)
+
+            if ($row['email'] == $this->email)
             {
-                $this->msg = ['success' => "Welcome, you are logged in successfully"];
-                return true;
-            } 
+                if ($row['password'] == $this->password)
+                {
+                    $this->msg  = ['success' => "Welcome, you are logged in successfully"];
+                    $this->id   = $row['id'];
+                    $this->name = $row['name'];
+                    return true;
+                } 
+                else
+                {
+                    $this->password_err = "password is not correct";
+                    return false;
+                }
+            }
             else
             {
-                $this->msg = ['danger' => "Sorry cannot logged, enter correct information"];
+                $this->email_err = "Email is not found";
                 return false;
             }
         }
+        else
+        {
+            $this->msg  = ['danger' => ".."];
+        }
     }
 
-    public function register($name, $email, $passwor)
+    public function register()
     {
-        $this->validate($name, $email, $passwor);
+        $this->validate();
 
         if (empty($this->name_err) && empty($this->email_err) && empty($this->password_err))
         {
@@ -75,26 +79,39 @@ class User {
         }
     }
 
-    private function emails()
+    public function emails()
     {
         $this->db->select('users','email');
-        return array_values(mysqli_fetch_assoc($this->db->result)); 
+        $array = array();
+
+        while($row = mysqli_fetch_assoc($this->db->result))
+        {
+            $array[] = $row['email'];
+        }
+        return $array;
     }
 
-    private function validate($name, $email, $passwor)
+    private function validate()
     {
         // Validate name
-        if (empty($name)) $this->name_err = "Name must be entered";
-        else $this->name = $name;
+        if (empty($this->name)) $this->name_err = "Name must be entered";
 
         // Validate email
-        if (empty($email)) $this->email_err = "Email must be entered";
-        elseif (in_array($email, $this->emails())) $this->email_err = "The email is already exist";
-        else $this->email = $email;
+        if (empty($this->email)) $this->email_err = "Email must be entered";
+        elseif (in_array($this->email, $this->emails())) $this->email_err = "The email is already exist";
 
         // Validate password
-        if (empty($passwor)) $this->password_err = "Password must be entered";
-        elseif (strlen($passwor) < 8) $this->password_err = "password must be greater than 8 a character";
-        else $this->password = $passwor;
+        if (empty($this->password)) $this->password_err = "Password must be entered";
+        elseif (strlen($this->password) < 8) $this->password_err = "password must be greater than 8 a character";
+    }
+
+    public function getName() { return $this->name; }
+
+    public function getID() { return $this->id; }
+
+    public function __destruct()
+    {
+        $this->email = $this->name = $this->password = $this->msg = '';
+        $this->email_err = $this->name_err = $this->password = '';
     }
 }

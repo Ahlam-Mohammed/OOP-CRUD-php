@@ -23,8 +23,13 @@ class Product {
         return $this->DB->result;
     }
 
-    // public function create()
-    // {
-        
-    // }
+    public function getProductByID($id)
+    {
+        $this->DB->select('products','*',$id);
+        return $this->DB->result;
+    }
+    
+    public function __destruct(){
+        $this->DB = '';
+    }
 }

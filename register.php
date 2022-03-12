@@ -4,8 +4,8 @@
 
 <main>
     <?php if (isset($user->msg)) {?>
-        <div class="alert alert-<?php if(array_keys($user->msg)[0] == 'success') echo 'success'; else echo 'danger' ?>" style="position: absolute; bottom: 0; left: 1%;z-index:9" role="alert">
-            <?php print_r(array_values($user->msg)[0]) ?>
+        <div class="alert alert-<?php if(array_keys($user->msg)[0] == 'success') echo 'success'; else echo '' ?>" role="alert">
+            <?php if(array_keys($user->msg)[0] == 'success') print_r(array_values($user->msg)[0]) ?>
         </div>
     <?php } ?>
     <div class="container d-flex justify-content-center align-items-center" style="height: 90vh;">

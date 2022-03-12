@@ -18,29 +18,23 @@ class Deposit {
         $this->user_id = $user_id;
     }
 
-    public function check()
+    public function addBalance()
     {
         $this->validate();
 
         $wallet  = new Wallet($this->DB, $this->user_id);
         $balance = $wallet->getBalance();
 
-        if ($this->amount > 5 && empty($this->amount_err))
+        if (empty($this->amount_err))
         {
             $result = $balance + $this->amount;
             
             $wallet->updateBalance($result);
             $this->addProcessDeposit();
 
-            $this->msg = ['success' => "Done"];
+            $this->msg = ['success' => "A balance has been added to your wallet ..."];
             return true;
         }
-        else
-        {
-            $this->msg = ['danger' => "false"];
-            return false;
-        }
-
     }
 
     private function addProcessDeposit()

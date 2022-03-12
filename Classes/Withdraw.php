@@ -1,45 +1,59 @@
 <?php
 
 // include "DataBase.php";
-include "Wallet.php";
+// include "Wallet.php";
 
 class Withdraw {
     
     private $user_id;
     private $amount;
     private $conn;
+    private $result;
 
     public $msg;
 
     public function __construct($user_id, $amount, $conn)
     {
-        // $this->conn    = new Database();
-        $this->conn = $conn;
+        $this->conn    = $conn;
         $this->user_id = $user_id;
         $this->amount  = $amount;
     }
 
-    public function check()
+    public function confirmWithdraw()
     {
-        $wallet  = new Wallet($this->user_id,$this->conn);
+        if (isset($this->user_id))
+        {
+            $result = $this->check();
+            if ($result) 
+            {
+                $_SESSION['cart'] = array();
+                $this->msg = ['success' => "Payment completed successfully ..."];
+            }
+            else
+            {
+                $this->msg = ['danger' => "Oops !! Your balance is insufficient ..."];
+            }
+        }
+        else
+        {
+            $this->msg = ['danger' => "You must be logged in before purchasing ..."];
+        }
+    }
+
+    private function check()
+    {
+        $wallet  = new Wallet($this->conn, $this->user_id);
         $balance = $wallet->getBalance();
 
         if ($balance > $this->amount)
         {
-            $result = $balance - $this->amount;
+            $this->result = $balance - $this->amount;
             
-            $wallet->updateBalance($result);
+            $wallet->updateBalance($this->result);
             $this->addProcessWithdraw();
-
-            $this->msg = ['success' => "Done"];
             return true;
         }
-        else
-        {
-            $this->msg = ['danger' => "false"];
-            return false;
-        }
-
+        else return false;
     }
 
     private function addProcessWithdraw()
@@ -47,6 +61,3 @@ class Withdraw {
         $this->conn->insert('withdraw', ['user_id' => $this->user_id, 'amount' => $this->amount]);
     }
 }
-
-// $a = new Withdraw(16,200);
-// $a->check();

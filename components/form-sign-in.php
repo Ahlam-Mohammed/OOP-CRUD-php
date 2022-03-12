@@ -1,13 +1,13 @@
-<form action="" method="POST">
+<form action="" method="post">
     <div class="mb-3">
         <label for="formGroupExampleInput2" class="form-label">Email:</label>
-        <input type="email" name="email" id="formGroupExampleInput2" placeholder="Your Email" class="form-control <?php echo (!empty($user->email_err)) ? 'is-invalid' : ''; ?>">
-        <span class="invalid-feedback"><?php echo $user->email_err;?></span>
+        <input type="email" name="email" id="formGroupExampleInput2" placeholder="Your Email" class="form-control <?php echo (!empty($userLogin->email_err)) ? 'is-invalid' : ''; ?>">
+        <span class="invalid-feedback"><?php echo $userLogin->email_err;?></span>
     </div>
     <div class="mb-3">
         <label for="formGroupExampleInput2" class="form-label">Password:</label>
-        <input type="password" name="password" id="formGroupExampleInput2" placeholder="Your Password" class="form-control <?php echo (!empty($user->password_err)) ? 'is-invalid' : ''; ?>">
-        <span class="invalid-feedback"><?php echo $user->password_err;?></span>
+        <input type="password" name="password" id="formGroupExampleInput2" placeholder="Your Password" class="form-control <?php echo (!empty($userLogin->password_err)) ? 'is-invalid' : ''; ?>">
+        <span class="invalid-feedback"><?php echo $userLogin->password_err;?></span>
     </div>
     <div class="mb-3">
         <p class="fs-sm pt-3 mb-0">Don't have an account? 
@@ -15,6 +15,6 @@
         </p>
     </div>
     <div class="mb-3">
-        <button class="w-100 btn btn-lg btn-primary" name="submit" value="submit" type="submit">Sign up</button>
+        <button class="w-100 btn btn-lg btn-primary" name="login" type="submit">Sign up</button>
     </div>
 </form>

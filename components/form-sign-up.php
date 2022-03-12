@@ -20,6 +20,6 @@
         </p>
     </div>
     <div class="mb-3">
-        <button class="w-100 btn btn-lg btn-primary" name="submit" value="submit" type="submit">Sign up</button>
+        <button class="w-100 btn btn-lg btn-primary" name="register" type="submit">Sign up</button>
     </div>
 </form>

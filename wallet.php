@@ -4,7 +4,7 @@
 
 <main>
     <?php if (isset($deposit->msg)) {?>
-        <div class="alert alert-<?php if(array_keys($deposit->msg)[0] == 'success') echo 'success'; else echo 'danger' ?>" style="position: absolute; bottom: 0; left: 1%;z-index:9" role="alert">
+        <div class="alert alert-<?php if(array_keys($deposit->msg)[0] == 'success') echo 'success'; else echo 'danger' ?>" role="alert">
             <?php print_r(array_values($deposit->msg)[0]) ?>
         </div>
     <?php } ?>
